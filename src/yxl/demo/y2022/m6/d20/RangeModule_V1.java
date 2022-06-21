@@ -14,9 +14,9 @@ public class RangeModule_V1 {
     }
 
     public void addRange(int left, int right) {
-        Map.Entry<Integer, Integer> entry = intervals.higherEntry(left);
-        if (entry != intervals.firstEntry()) {
-            Map.Entry<Integer, Integer> start = entry != null ? intervals.lowerEntry(entry.getKey()) : intervals.lastEntry();
+        Map.Entry<Integer, Integer> entry = intervals.higherEntry(left);//大于key的第一个元素
+        if (entry != intervals.firstEntry()) {//集合中最小的元素
+            Map.Entry<Integer, Integer> start = entry != null ? intervals.lowerEntry(entry.getKey()) /*小于key的最大的元素*/: intervals.lastEntry();//最大的元素
             if (start != null && start.getValue() >= right) {
                 return;
             }
