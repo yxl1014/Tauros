@@ -2,47 +2,24 @@ package yxl.demo.y2022.m7.d05;
 
 import sun.rmi.server.InactiveGroupException;
 
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 public class MyCalendar {
 
-    private TreeMap<Integer, Integer> map;
+    private List<int[]> list;
 
     public MyCalendar() {
-        this.map = new TreeMap<>();
+        this.list = new ArrayList<>();
     }
 
     public boolean book(int start, int end) {
-
-        if (map == null) {
-            return false;
-        }
-
-        if (map.containsKey(start)) {
-            return false;
-        }
-
-        Map.Entry<Integer, Integer> integerIntegerEntry = map.tailMap(start, false).firstEntry();
-
-        if (integerIntegerEntry != null) {
-            if (integerIntegerEntry.getKey() < end) {
+        for (int[] arr : list) {
+            int l = arr[0], r = arr[1];
+            if (l < end && start < r) {
                 return false;
             }
         }
-
-        Map.Entry<Integer, Integer> integerIntegerEntry1 = map.ceilingEntry(start);
-
-        if (integerIntegerEntry1!=null){
-            if (integerIntegerEntry1.getValue()>=start){
-                return false;
-            }
-        }
-
-        this.map.put(start,end);
-
+        list.add(new int[]{start, end});
         return true;
     }
 
