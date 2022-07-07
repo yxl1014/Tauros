@@ -6,6 +6,7 @@ import java.util.List;
  * @Author: yxl
  * @Date: 2022/7/7 11:14
  */
+
 public class Solution {
     public String replaceWords(List<String> dictionary, String sentence) {
         String[] ss = sentence.split(" ");
