@@ -6,13 +6,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @Author: yxl
- * @Date: 2022/7/8 10:01
- *
-作者：LeetCode-Solution
-链接：https://leetcode.cn/problems/parse-lisp-expression/solution/lisp-yu-fa-jie-xi-by-leetcode-solution-zycb/
-来源：力扣（LeetCode）
-著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+ * 作者：LeetCode-Solution
+ * 链接：https://leetcode.cn/problems/parse-lisp-expression/solution/lisp-yu-fa-jie-xi-by-leetcode-solution-zycb/
+ * 来源：力扣（LeetCode）
+ * 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
  */
 class Solution {
     Map<String, Deque<Integer>> scope = new HashMap<String, Deque<Integer>>();
@@ -34,11 +31,13 @@ class Solution {
                 continue;
             }
             StringBuffer sb = new StringBuffer();
-            if (expression.charAt(start) == ')') { // 本质上是把表达式转成一个 token
+            // 本质上是把表达式转成一个 token
+            if (expression.charAt(start) == ')') {
                 start++; // 去掉右括号
                 if (cur.status == ExprStatus.LET2) {
                     sb = new StringBuffer(Integer.toString(cur.value));
-                    for (String var : vars.peek()) { // 清除作用域
+                    // 清除作用域
+                    for (String var : vars.peek()) {
                         scope.get(var).pop();
                     }
                     vars.pop();
@@ -47,7 +46,8 @@ class Solution {
                 } else {
                     sb = new StringBuffer(Integer.toString(cur.e1 * cur.e2));
                 }
-                cur = stack.pop(); // 获取上层状态
+                // 获取上层状态
+                cur = stack.pop();
             } else {
                 while (start < n && expression.charAt(start) != ' ' && expression.charAt(start) != ')') {
                     sb.append(expression.charAt(start));
@@ -63,7 +63,8 @@ class Solution {
                 case "NONE":
                     if ("let".equals(token)) {
                         cur.status = ExprStatus.LET;
-                        vars.push(new ArrayDeque<String>()); // 记录该层作用域的所有变量, 方便后续的清除
+                        // 记录该层作用域的所有变量, 方便后续的清除
+                        vars.push(new ArrayDeque<String>());
                     } else if ("add".equals(token)) {
                         cur.status = ExprStatus.ADD;
                     } else if ("mult".equals(token)) {
@@ -71,12 +72,14 @@ class Solution {
                     }
                     break;
                 case "LET":
-                    if (expression.charAt(start) == ')') { // let 表达式的最后一个 expr 表达式
+                    // let 表达式的最后一个 expr 表达式
+                    if (expression.charAt(start) == ')') {
                         cur.value = calculateToken(token);
                         cur.status = ExprStatus.LET2;
                     } else {
                         cur.var = token;
-                        vars.peek().push(token); // 记录该层作用域的所有变量, 方便后续的清除
+                        // 记录该层作用域的所有变量, 方便后续的清除
+                        vars.peek().push(token);
                         cur.status = ExprStatus.LET1;
                     }
                     break;
@@ -101,6 +104,8 @@ class Solution {
                     cur.e2 = calculateToken(token);
                     cur.status = ExprStatus.MULT2;
                     break;
+                default:
+                    break;
             }
         }
         return cur.value;
@@ -116,9 +121,12 @@ class Solution {
 }
 
 enum ExprStatus {
-    VALUE,     // 初始状态
-    NONE,      // 表达式类型未知
-    LET,       // let 表达式
+    // 初始状态
+    VALUE,
+    // 表达式类型未知
+    NONE,
+    // let 表达式
+    LET,
     LET1,      // let 表达式已经解析了 vi 变量
     LET2,      // let 表达式已经解析了最后一个表达式 expr
     ADD,       // add 表达式
@@ -140,4 +148,3 @@ class Expr {
         status = s;
     }
 }
-
