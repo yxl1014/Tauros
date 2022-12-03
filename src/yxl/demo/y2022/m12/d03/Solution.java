@@ -15,7 +15,7 @@ public class Solution {
         char t = ' ';
         Arrays.sort(c);
         for (char cc : c) {
-            if (cc < 48 || cc > 57)
+            if (!Character.isDigit(cc))
                 continue;
             if (t == ' ')
                 t = cc;
